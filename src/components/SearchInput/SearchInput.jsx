@@ -1,46 +1,42 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import Icon from "../Icon";
+import { COLORS } from "../../constants";
 
-import { COLORS } from '../../constants';
-import VisuallyHidden from '../VisuallyHidden';
-import Icon from '../Icon';
-
-const SearchInput = ({ label, ...delegated }) => {
+const SearchInput = () => {
   return (
-    <Label>
-      <VisuallyHidden>Search</VisuallyHidden>
-      <Input {...delegated} placeholder="Search…" />
-      <SearchIcon id="search" strokeWidth={1} size={16} />
-    </Label>
+    <Wrapper>
+      <StyledInput type="text" placeholder="Search..." />
+      <SeachIcon id="search" size={16} />
+    </Wrapper>
   );
 };
 
-const Label = styled.label`
+const Wrapper = styled.div`
+  padding: 0;
+  margin: 0;
   position: relative;
-`;
 
-const Input = styled.input`
-  border: none;
-  background: transparent;
-  border-bottom: 1px solid ${COLORS.gray[300]};
-  padding-left: 24px;
-  font-size: 0.875rem;
-  color: ${COLORS.gray[100]};
-  outline-offset: 4px;
-
-  &::placeholder {
-    color: ${COLORS.gray[500]};
+  &:hover {
+    color: ${COLORS.white};
   }
 `;
 
-const SearchIcon = styled(Icon)`
+const SeachIcon = styled(Icon)`
   position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  margin: auto;
-  width: 16px;
-  height: 16px;
+  top: 3px;
+`;
+
+const StyledInput = styled.input`
+  background-color: ${COLORS.gray[900]};
+  border: none;
+  border-bottom: 1px solid ${COLORS.gray[300]};
+  padding-left: 24px;
+  color: ${COLORS.white};
+
+  &:hover {
+    border-bottom: 1px solid ${COLORS.white};
+  }
 `;
 
 export default SearchInput;

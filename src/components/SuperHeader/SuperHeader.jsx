@@ -1,45 +1,46 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import Icon from "../Icon";
 
-import { COLORS } from '../../constants';
-
-import SearchInput from '../SearchInput';
-import UnstyledButton from '../UnstyledButton';
-import Icon from '../Icon';
+import styled from "styled-components";
+import { COLORS } from "../../constants";
+import SearchInput from "../SearchInput/SearchInput";
 
 const SuperHeader = () => {
   return (
     <Wrapper>
-      <MarketingMessage>
-        Free shipping on domestic orders over $75!
-      </MarketingMessage>
+      <ShippingMessage>
+        Free shipping on domestic orders over %75!
+      </ShippingMessage>
       <SearchInput />
-      <HelpLink href="/help">Help</HelpLink>
-      <UnstyledButton>
-        <Icon id="shopping-bag" strokeWidth={1} />
-      </UnstyledButton>
+      <HelpBtn>Help</HelpBtn>
+      <Icon id="shopping-bag" />
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
-  font-size: 0.875rem;
-  color: ${COLORS.gray[300]};
-  background-color: ${COLORS.gray[900]};
-`;
-
-const MarketingMessage = styled.span`
+const ShippingMessage = styled.p`
+  margin-right: auto;
   color: ${COLORS.white};
+  line-height: 24px;
 `;
 
-const HelpLink = styled.a`
+const HelpBtn = styled.button`
+  background-color: inherit;
   color: inherit;
-  text-decoration: none;
-  outline-offset: 2px;
+  border: none;
 
-  &:not(:focus-visible) {
-    outline: none;
+  &:hover {
+    color: ${COLORS.white};
   }
+`;
+
+const Wrapper = styled.div`
+  background-color: ${COLORS.gray[900]};
+  color: ${COLORS.gray[300]};
+  padding: 8px 32px;
+  display: flex;
+  gap: 24px;
+  font-size: 14px;
 `;
 
 export default SuperHeader;

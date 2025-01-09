@@ -1,84 +1,64 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import { COLORS, WEIGHTS } from "../../constants";
+import Icon from "../Icon";
+import { getDisplayedValue } from "./Select.helpers";
 
-import { COLORS, WEIGHTS } from '../../constants';
-import Icon from '../Icon';
-
-const Select = ({ label, value, children, ...delegated }) => {
-  const childArray = React.Children.toArray(children);
-  const selectedChild = childArray.find(
-    (child) => child.props.value === value
-  );
-
-  const displayedValue = selectedChild.props.children;
+const Select = ({ label, value, onChange, children }) => {
+  const displayedValue = getDisplayedValue(value, children);
 
   return (
-    <Wrapper>
-      <VisibleLabel>{label}</VisibleLabel>
-
-      <SelectWrapper>
-        <NativeSelect {...delegated}>{children}</NativeSelect>
-
-        <DisplayedBit>
-          {displayedValue}
-          <ChevronIcon
-            id="chevron-down"
-            size={24}
-            strokeWidth={1.5}
-          />
-        </DisplayedBit>
-      </SelectWrapper>
-    </Wrapper>
+    <SelectWrapper>
+      <ChevronDown />
+      <SelectBox value={value} onChange={onChange}>
+        {children}
+      </SelectBox>
+      <CustomSelect>{displayedValue}</CustomSelect>
+    </SelectWrapper>
   );
 };
 
-const Wrapper = styled.label``;
-
-const VisibleLabel = styled.span`
-  color: ${COLORS.gray[700]};
-  margin-right: 16px;
+const ChevronDown = styled(Icon).attrs((p) => ({
+  id: "chevron-down",
+  strokeWidth: 2,
+}))`
+  position: absolute;
+  top: 12px;
+  right: 5px;
+  /* pointer-events allows us to modify the behaviour of pointer events for the element being styled. 
+  In the case of none it makes the browser ignore all pointer events */
+  // The reason it's commented out is that SelectWrapper is stacked on top of the ChevronDown so we don't need to worry about events for ChevronDown
+  /* pointer-events: none; */
 `;
 
 const SelectWrapper = styled.div`
+  /* This position: relative makes it so the chevron-down is rendered behind 
+  the select which allows for opening the select options when the chevron is clicked */
   position: relative;
-`;
-
-const NativeSelect = styled.select`
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-`;
-
-const DisplayedBit = styled.span`
-  display: block;
-  background: ${COLORS.gray[100]};
+  color: ${COLORS.gray[900]};
   font-size: 1rem;
   font-weight: ${WEIGHTS.medium};
-  color: ${COLORS.gray[900]};
-  padding: 12px 42px 12px 16px;
-  border-radius: 8px;
-  pointer-events: none;
-
-  ${NativeSelect}:focus ~ & {
-    outline: 1px dotted #212121;
-    outline: 5px auto -webkit-focus-ring-color;
-  }
+  width: fit-content;
 `;
 
-const ChevronIcon = styled(Icon)`
+const SelectBox = styled.select`
+  opacity: 0;
+  height: 100%;
+  width: 100%;
   position: absolute;
   top: 0;
-  right: 9px;
-  bottom: 0;
-  margin: auto;
-  width: 24px;
-  height: 24px;
+`;
+
+const CustomSelect = styled.div`
+  padding: 12px 40px 12px 16px;
+  background-color: ${COLORS.gray[100]};
+  border-radius: 8px;
+  border: none;
+
+  ${SelectBox}:focus + & {
+    outline: 1px dotted ${COLORS.gray[700]};
+    outline: 5px auto -webkit-focus-ring-color;
+  }
 `;
 
 export default Select;
